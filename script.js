@@ -1,30 +1,40 @@
 let shakeTriggered = false;
 let result = 0;
 
-// Schritt 1: Das Erdbeben auslösen
+// Schritt 1: Das Erdbeben nach Button-Klick
 function triggerShake() {
+    const input = document.getElementById('entry-input').value;
+    if (input.trim() === "") {
+        alert("Du musst schon etwas antworten...");
+        return;
+    }
+
     if (shakeTriggered) return;
     shakeTriggered = true;
     
+    // Beben starten
     document.getElementById('main-body').classList.add('shake-active');
     
+    // Nach 5 Sekunden Beben stoppen und zum Quiz wechseln
     setTimeout(() => {
         document.getElementById('main-body').classList.remove('shake-active');
-        setTimeout(() => {
-            document.getElementById('step1').classList.add('hidden-step');
-            document.getElementById('step2').classList.remove('hidden-step');
-        }, 1000);
+        document.getElementById('step1').classList.add('hidden-step');
+        document.getElementById('step2').classList.remove('hidden-step');
     }, 5000);
 }
 
-// Schritt 2: Quiz prüfen
+// Schritt 2: Quiz prüfen (Der Remo-Check)
 function checkQuiz() {
     const answer = document.getElementById('quiz-input').value.trim();
+    
     if (answer.toLowerCase() === 'remo') {
         proceedToMath();
     } else {
+        // Roter Balken einblenden
         const banner = document.getElementById('error-banner');
         banner.classList.remove('hidden-step');
+        
+        // Nach 3 Sekunden Balken weg und trotzdem zur Mathe-Aufgabe (als Strafe)
         setTimeout(() => {
             banner.classList.add('hidden-step');
             proceedToMath();
