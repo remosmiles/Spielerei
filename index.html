@@ -3,129 +3,140 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vercel Power Dashboard</title>
+    <title>System-Sicherheitstest</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
     <style>
-        body { 
-            background: #020617; 
-            color: #f8fafc; 
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            background-image: radial-gradient(circle at top right, #1e1b4b, transparent),
-                              radial-gradient(circle at bottom left, #0f172a, transparent);
-            min-height: 100vh;
+        body { background: #020617; color: white; font-family: sans-serif; overflow: hidden; }
+        
+        /* Das Erdbeben */
+        @keyframes shake {
+            0% { transform: translate(1px, 1px) rotate(0deg); }
+            10% { transform: translate(-1px, -2px) rotate(-1deg); }
+            20% { transform: translate(-3px, 0px) rotate(1deg); }
+            30% { transform: translate(3px, 2px) rotate(0deg); }
+            40% { transform: translate(1px, -1px) rotate(1deg); }
+            50% { transform: translate(-1px, 2px) rotate(-1deg); }
+            100% { transform: translate(1px, 1px) rotate(0deg); }
         }
-        .glass-card { 
-            background: rgba(30, 41, 59, 0.5);
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        .shake-active { animation: shake 0.2s infinite; }
+
+        /* Smooth Fade */
+        .hidden-step { display: none; }
+        
+        .error-overlay {
+            background: rgba(220, 38, 38, 0.9);
+            animation: pulse 0.5s infinite;
         }
-        .glass-card:hover {
-            transform: scale(1.02);
-            border-color: #38bdf8;
-            box-shadow: 0 20px 40px -15px rgba(56, 189, 248, 0.2);
-        }
-        .btn-glow {
-            box-shadow: 0 0 20px rgba(56, 189, 248, 0.4);
-        }
-        .btn-glow:hover {
-            box-shadow: 0 0 35px rgba(56, 189, 248, 0.6);
+        @keyframes pulse {
+            0% { opacity: 1; } 50% { opacity: 0.7; } 100% { opacity: 1; }
         }
     </style>
 </head>
-<body class="py-12 px-4">
+<body id="main-body" class="flex items-center justify-center min-h-screen">
 
-    <div class="max-w-5xl mx-auto">
-        <header class="text-center mb-16">
-            <div class="inline-block px-4 py-1.5 mb-4 text-sm font-semibold tracking-wider text-blue-400 uppercase bg-blue-400/10 rounded-full">
-                Deployment erfolgreich
-            </div>
-            <h1 class="text-5xl md:text-7xl font-extrabold mb-6 tracking-tight">
-                Next Level <span class="bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-indigo-500">Coding</span>
-            </h1>
-            <p class="text-slate-400 text-lg max-w-2xl mx-auto">
-                Willkommen in deiner neuen Entwicklungsumgebung. GitHub verwaltet deinen Code, Vercel serviert ihn der Welt.
-            </p>
-        </header>
+    <div id="step1" class="text-center p-8 glass-card bg-slate-800 rounded-3xl shadow-2xl border border-slate-700">
+        <h1 class="text-3xl font-bold mb-6">Was suchst DU hier?</h1>
+        <input type="text" id="entry-input" oninput="triggerShake()" 
+               class="bg-slate-900 border border-slate-600 p-4 rounded-xl w-64 text-center focus:outline-none focus:border-blue-500" 
+               placeholder="Antwort eingeben...">
+    </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-20" id="feature-grid">
-            </div>
+    <div id="step2" class="hidden-step text-center p-8 bg-slate-800 rounded-3xl border border-slate-700 w-96">
+        <h2 class="text-2xl font-bold mb-4">IDENTITÄTS-CHECK</h2>
+        <p class="mb-4 text-slate-400">Wer ist der beste Polizist?</p>
+        <input type="text" id="quiz-input" class="bg-slate-900 border border-slate-600 p-3 rounded-lg w-full mb-4 text-center">
+        <button onclick="checkQuiz()" class="bg-blue-600 px-6 py-2 rounded-lg font-bold hover:bg-blue-500 w-full">Bestätigen</button>
+    </div>
 
-        <div class="glass-card rounded-3xl p-8 md:p-12 text-center max-w-3xl mx-auto">
-            <h2 class="text-3xl font-bold mb-4">Serverless Kommunikation</h2>
-            <p class="text-slate-400 mb-8">Klicke den Button, um Daten live aus deiner <code>/api/features.js</code> Route zu laden. Das ist echtes Backend-Handling!</p>
-            
-            <div id="api-content" class="space-y-4 text-left">
-                <div class="flex justify-center">
-                    <button onclick="loadRoadmap()" class="btn-glow bg-blue-500 hover:bg-blue-400 text-white font-bold py-4 px-10 rounded-2xl transition-all duration-300">
-                        Daten vom Server abrufen
-                    </button>
-                </div>
-            </div>
+    <div id="step3" class="hidden-step text-center p-8 bg-slate-900 rounded-3xl border-2 border-yellow-500 w-96">
+        <h2 class="text-2xl font-bold mb-2 text-yellow-500">SYSTEM-RECOVERY</h2>
+        <p class="mb-6">Löse das Problem, um den Shutdown abzubrechen:</p>
+        <div id="math-problem" class="text-4xl font-mono mb-6"></div>
+        <input type="number" id="math-input" class="bg-black border border-yellow-600 p-3 rounded-lg w-full mb-4 text-center text-xl">
+        
+        <div class="w-full bg-slate-700 h-4 rounded-full overflow-hidden">
+            <div id="timer-bar" class="bg-yellow-500 h-full w-full transition-all linear"></div>
         </div>
+    </div>
 
-        <footer class="mt-20 text-center border-t border-slate-800 pt-8 text-slate-500">
-            <p>&copy; 2024 Dein Projekt • Gehostet auf Vercel via GitHub</p>
-        </footer>
+    <div id="error-banner" class="hidden-step fixed top-0 left-0 w-full p-4 error-overlay text-white font-bold text-center z-50">
+        KRITISCHER FEHLER: Falsche Antwort! System-Shutdown eingeleitet... (30s)
     </div>
 
     <script>
-        // Statische Features anzeigen
-        const features = [
-            { title: "GitHub Sync", icon: "🐙", desc: "Automatisches Deployment bei jedem Push." },
-            { title: "Edge Network", icon: "🌐", desc: "Deine Seite ist weltweit in Millisekunden geladen." },
-            { title: "Serverless", icon: "☁️", desc: "Backend-Logik ohne eigenen Server-Stress." }
-        ];
+        let shakeTriggered = false;
 
-        const grid = document.getElementById('feature-grid');
-        features.forEach(f => {
-            grid.innerHTML += `
-                <div class="glass-card p-6 rounded-2xl text-center">
-                    <div class="text-4xl mb-4">${f.icon}</div>
-                    <h3 class="text-xl font-bold mb-2">${f.title}</h3>
-                    <p class="text-slate-400 text-sm">${f.desc}</p>
-                </div>
-            `;
-        });
+        // Schritt 1 -> 2
+        function triggerShake() {
+            if (shakeTriggered) return;
+            shakeTriggered = true;
+            
+            document.getElementById('main-body').classList.add('shake-active');
+            
+            setTimeout(() => {
+                document.getElementById('main-body').classList.remove('shake-active');
+                setTimeout(() => {
+                    document.getElementById('step1').classList.add('hidden-step');
+                    document.getElementById('step2').classList.remove('hidden-step');
+                }, 1000);
+            }, 5000);
+        }
 
-        // Dynamische Daten von der API laden
-        async function loadRoadmap() {
-            const container = document.getElementById('api-content');
-            container.innerHTML = `
-                <div class="flex justify-center py-8">
-                    <div class="animate-spin rounded-full h-10 w-10 border-b-2 border-blue-500"></div>
-                </div>`;
-
-            try {
-                const response = await fetch('/api/features');
-                if (!response.ok) throw new Error('API nicht gefunden');
-                const data = await response.json();
-
-                container.innerHTML = '<h3 class="text-xl font-semibold mb-4 text-blue-400">Roadmap Vorschläge:</h3>';
-                data.forEach(item => {
-                    container.innerHTML += `
-                        <div class="bg-slate-900/50 p-5 rounded-xl border border-slate-700 flex justify-between items-center animate-fadeIn">
-                            <div>
-                                <div class="font-bold text-slate-100">${item.task}</div>
-                                <div class="text-xs text-blue-400 uppercase tracking-widest mt-1">${item.tech}</div>
-                            </div>
-                            <span class="px-3 py-1 bg-blue-500/10 text-blue-400 border border-blue-500/20 rounded-lg text-xs font-mono">
-                                ${item.difficulty}
-                            </span>
-                        </div>
-                    `;
-                });
-            } catch (error) {
-                container.innerHTML = `
-                    <div class="p-4 bg-red-500/10 border border-red-500/20 rounded-xl text-red-400 text-center text-sm">
-                        <p class="font-bold">API nicht erreichbar!</p>
-                        <p>Hast du die Datei <b>api/features.js</b> erstellt und gepusht?</p>
-                    </div>
-                    <div class="flex justify-center mt-4">
-                        <button onclick="loadRoadmap()" class="text-slate-400 hover:text-white text-sm underline">Erneut versuchen</button>
-                    </div>`;
+        // Schritt 2 -> 3
+        function checkQuiz() {
+            const answer = document.getElementById('quiz-input').value.trim();
+            if (answer.toLowerCase() === 'remo') {
+                proceedToMath();
+            } else {
+                const banner = document.getElementById('error-banner');
+                banner.classList.remove('hidden-step');
+                setTimeout(() => {
+                    banner.classList.add('hidden-step');
+                    proceedToMath();
+                }, 3000);
             }
+        }
+
+        // Schritt 3: Mathe-Logik
+        let result = 0;
+        function proceedToMath() {
+            document.getElementById('step2').classList.add('hidden-step');
+            document.getElementById('step3').classList.remove('hidden-step');
+            
+            const n1 = Math.floor(Math.random() * 50) + 10;
+            const n2 = Math.floor(Math.random() * 50) + 10;
+            result = n1 + n2;
+            document.getElementById('math-problem').innerText = `${n1} + ${n2}`;
+            
+            let timeLeft = 15;
+            const bar = document.getElementById('timer-bar');
+            
+            const timer = setInterval(() => {
+                timeLeft -= 0.1;
+                bar.style.width = (timeLeft / 15 * 100) + "%";
+                
+                // Erfolgskontrolle während des Tippens
+                const userVal = parseInt(document.getElementById('math-input').value);
+                if (userVal === result) {
+                    clearInterval(timer);
+                    win();
+                }
+
+                if (timeLeft <= 0) {
+                    clearInterval(timer);
+                    if (parseInt(document.getElementById('math-input').value) !== result) {
+                        window.location.href = "https://www.bullenpower-uri.ch";
+                    }
+                }
+            }, 100);
+        }
+
+        function win() {
+            document.getElementById('step3').innerHTML = "<div class='text-6xl'>😉</div><p class='mt-4'>Gerettet!</p>";
+            setTimeout(() => {
+                alert("Test bestanden. Willkommen zurück.");
+                location.reload(); 
+            }, 2000);
         }
     </script>
 </body>
