@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GitHub + Vercel Power-Up</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { background: #0f172a; color: white; font-family: 'Inter', sans-serif; }
+        .feature-card { transition: all 0.3s ease; border: 1px solid #1e293b; }
+        .feature-card:hover { transform: translateY(-5px); border-color: #38bdf8; box-shadow: 0 10px 30px -10px #38bdf866; }
+        .gradient-text { background: linear-gradient(90deg, #38bdf8, #818cf8); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    </style>
+</head>
+<body class="p-8">
+    <div class="max-w-4xl mx-auto">
+        <header class="mb-16 text-center">
+            <h1 class="text-5xl font-extrabold mb-4">Level Up: <span class="gradient-text">GitHub & Vercel</span></h1>
+            <p class="text-slate-400 text-lg">Vom "Pen" zum Profi-Deployment. Hier ist, was du jetzt kontrollierst:</p>
+        </header>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6" id="feature-grid">
+            </div>
+
+        <footer class="mt-16 text-center text-slate-500 text-sm">
+            Status: <span class="text-green-400">● Live auf Vercel</span> | Repository: <span class="italic text-slate-300">Verbunden</span>
+        </footer>
+    </div>
+
+    <script>
+        const features = [
+            {
+                title: "CI/CD Automatisierung",
+                desc: "Vergiss manuelles Speichern. Jedes 'git push' löst ein automatisches Build aus. Vercel baut deine Seite in Sekunden neu.",
+                icon: "🚀"
+            },
+            {
+                title: "Serverless Functions",
+                desc: "Du kannst jetzt Backend-Code (Node.js, Python) schreiben, ohne einen Server zu mieten. Ideal für Formulare oder APIs.",
+                icon: "⚡"
+            },
+            {
+                title: "Preview Deployments",
+                desc: "Erstelle einen neuen Branch und Vercel gibt dir eine eigene URL für diesen Stand. Perfekt zum Testen vor dem Release.",
+                icon: "👁️"
+            },
+            {
+                title: "Custom Domains & SSL",
+                desc: "Echte URLs statt kryptische CodePen-Links. Inklusive kostenlosem SSL-Zertifikat für maximale Sicherheit.",
+                icon: "🔒"
+            },
+            {
+                title: "Environment Variables",
+                desc: "Verstecke API-Keys sicher in den Vercel-Einstellungen. Nie wieder geheime Keys im öffentlichen Code!",
+                icon: "🔑"
+            },
+            {
+                title: "Framework Power",
+                desc: "Nutze React, Next.js, Vue oder Svelte. Vercel ist für diese modernen Frameworks optimiert.",
+                icon: "🏗️"
+            }
+        ];
+
+        const grid = document.getElementById('feature-grid');
+        features.forEach(f => {
+            grid.innerHTML += `
+                <div class="feature-card bg-slate-800/50 p-6 rounded-2xl">
+                    <div class="text-3xl mb-4">${f.icon}</div>
+                    <h3 class="text-xl font-bold mb-2 text-slate-100">${f.title}</h3>
+                    <p class="text-slate-400 leading-relaxed text-sm">${f.desc}</p>
+                </div>
+            `;
+        });
+    </script>
+</body>
+</html>
