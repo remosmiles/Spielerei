@@ -3,74 +3,130 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GitHub + Vercel Power-Up</title>
+    <title>Vercel Power Dashboard</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
     <style>
-        body { background: #0f172a; color: white; font-family: 'Inter', sans-serif; }
-        .feature-card { transition: all 0.3s ease; border: 1px solid #1e293b; }
-        .feature-card:hover { transform: translateY(-5px); border-color: #38bdf8; box-shadow: 0 10px 30px -10px #38bdf866; }
-        .gradient-text { background: linear-gradient(90deg, #38bdf8, #818cf8); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        body { 
+            background: #020617; 
+            color: #f8fafc; 
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-image: radial-gradient(circle at top right, #1e1b4b, transparent),
+                              radial-gradient(circle at bottom left, #0f172a, transparent);
+            min-height: 100vh;
+        }
+        .glass-card { 
+            background: rgba(30, 41, 59, 0.5);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .glass-card:hover {
+            transform: scale(1.02);
+            border-color: #38bdf8;
+            box-shadow: 0 20px 40px -15px rgba(56, 189, 248, 0.2);
+        }
+        .btn-glow {
+            box-shadow: 0 0 20px rgba(56, 189, 248, 0.4);
+        }
+        .btn-glow:hover {
+            box-shadow: 0 0 35px rgba(56, 189, 248, 0.6);
+        }
     </style>
 </head>
-<body class="p-8">
-    <div class="max-w-4xl mx-auto">
-        <header class="mb-16 text-center">
-            <h1 class="text-5xl font-extrabold mb-4">Level Up: <span class="gradient-text">GitHub & Vercel</span></h1>
-            <p class="text-slate-400 text-lg">Vom "Pen" zum Profi-Deployment. Hier ist, was du jetzt kontrollierst:</p>
+<body class="py-12 px-4">
+
+    <div class="max-w-5xl mx-auto">
+        <header class="text-center mb-16">
+            <div class="inline-block px-4 py-1.5 mb-4 text-sm font-semibold tracking-wider text-blue-400 uppercase bg-blue-400/10 rounded-full">
+                Deployment erfolgreich
+            </div>
+            <h1 class="text-5xl md:text-7xl font-extrabold mb-6 tracking-tight">
+                Next Level <span class="bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-indigo-500">Coding</span>
+            </h1>
+            <p class="text-slate-400 text-lg max-w-2xl mx-auto">
+                Willkommen in deiner neuen Entwicklungsumgebung. GitHub verwaltet deinen Code, Vercel serviert ihn der Welt.
+            </p>
         </header>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6" id="feature-grid">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-20" id="feature-grid">
             </div>
 
-        <footer class="mt-16 text-center text-slate-500 text-sm">
-            Status: <span class="text-green-400">● Live auf Vercel</span> | Repository: <span class="italic text-slate-300">Verbunden</span>
+        <div class="glass-card rounded-3xl p-8 md:p-12 text-center max-w-3xl mx-auto">
+            <h2 class="text-3xl font-bold mb-4">Serverless Kommunikation</h2>
+            <p class="text-slate-400 mb-8">Klicke den Button, um Daten live aus deiner <code>/api/features.js</code> Route zu laden. Das ist echtes Backend-Handling!</p>
+            
+            <div id="api-content" class="space-y-4 text-left">
+                <div class="flex justify-center">
+                    <button onclick="loadRoadmap()" class="btn-glow bg-blue-500 hover:bg-blue-400 text-white font-bold py-4 px-10 rounded-2xl transition-all duration-300">
+                        Daten vom Server abrufen
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <footer class="mt-20 text-center border-t border-slate-800 pt-8 text-slate-500">
+            <p>&copy; 2024 Dein Projekt • Gehostet auf Vercel via GitHub</p>
         </footer>
     </div>
 
     <script>
+        // Statische Features anzeigen
         const features = [
-            {
-                title: "CI/CD Automatisierung",
-                desc: "Vergiss manuelles Speichern. Jedes 'git push' löst ein automatisches Build aus. Vercel baut deine Seite in Sekunden neu.",
-                icon: "🚀"
-            },
-            {
-                title: "Serverless Functions",
-                desc: "Du kannst jetzt Backend-Code (Node.js, Python) schreiben, ohne einen Server zu mieten. Ideal für Formulare oder APIs.",
-                icon: "⚡"
-            },
-            {
-                title: "Preview Deployments",
-                desc: "Erstelle einen neuen Branch und Vercel gibt dir eine eigene URL für diesen Stand. Perfekt zum Testen vor dem Release.",
-                icon: "👁️"
-            },
-            {
-                title: "Custom Domains & SSL",
-                desc: "Echte URLs statt kryptische CodePen-Links. Inklusive kostenlosem SSL-Zertifikat für maximale Sicherheit.",
-                icon: "🔒"
-            },
-            {
-                title: "Environment Variables",
-                desc: "Verstecke API-Keys sicher in den Vercel-Einstellungen. Nie wieder geheime Keys im öffentlichen Code!",
-                icon: "🔑"
-            },
-            {
-                title: "Framework Power",
-                desc: "Nutze React, Next.js, Vue oder Svelte. Vercel ist für diese modernen Frameworks optimiert.",
-                icon: "🏗️"
-            }
+            { title: "GitHub Sync", icon: "🐙", desc: "Automatisches Deployment bei jedem Push." },
+            { title: "Edge Network", icon: "🌐", desc: "Deine Seite ist weltweit in Millisekunden geladen." },
+            { title: "Serverless", icon: "☁️", desc: "Backend-Logik ohne eigenen Server-Stress." }
         ];
 
         const grid = document.getElementById('feature-grid');
         features.forEach(f => {
             grid.innerHTML += `
-                <div class="feature-card bg-slate-800/50 p-6 rounded-2xl">
-                    <div class="text-3xl mb-4">${f.icon}</div>
-                    <h3 class="text-xl font-bold mb-2 text-slate-100">${f.title}</h3>
-                    <p class="text-slate-400 leading-relaxed text-sm">${f.desc}</p>
+                <div class="glass-card p-6 rounded-2xl text-center">
+                    <div class="text-4xl mb-4">${f.icon}</div>
+                    <h3 class="text-xl font-bold mb-2">${f.title}</h3>
+                    <p class="text-slate-400 text-sm">${f.desc}</p>
                 </div>
             `;
         });
+
+        // Dynamische Daten von der API laden
+        async function loadRoadmap() {
+            const container = document.getElementById('api-content');
+            container.innerHTML = `
+                <div class="flex justify-center py-8">
+                    <div class="animate-spin rounded-full h-10 w-10 border-b-2 border-blue-500"></div>
+                </div>`;
+
+            try {
+                const response = await fetch('/api/features');
+                if (!response.ok) throw new Error('API nicht gefunden');
+                const data = await response.json();
+
+                container.innerHTML = '<h3 class="text-xl font-semibold mb-4 text-blue-400">Roadmap Vorschläge:</h3>';
+                data.forEach(item => {
+                    container.innerHTML += `
+                        <div class="bg-slate-900/50 p-5 rounded-xl border border-slate-700 flex justify-between items-center animate-fadeIn">
+                            <div>
+                                <div class="font-bold text-slate-100">${item.task}</div>
+                                <div class="text-xs text-blue-400 uppercase tracking-widest mt-1">${item.tech}</div>
+                            </div>
+                            <span class="px-3 py-1 bg-blue-500/10 text-blue-400 border border-blue-500/20 rounded-lg text-xs font-mono">
+                                ${item.difficulty}
+                            </span>
+                        </div>
+                    `;
+                });
+            } catch (error) {
+                container.innerHTML = `
+                    <div class="p-4 bg-red-500/10 border border-red-500/20 rounded-xl text-red-400 text-center text-sm">
+                        <p class="font-bold">API nicht erreichbar!</p>
+                        <p>Hast du die Datei <b>api/features.js</b> erstellt und gepusht?</p>
+                    </div>
+                    <div class="flex justify-center mt-4">
+                        <button onclick="loadRoadmap()" class="text-slate-400 hover:text-white text-sm underline">Erneut versuchen</button>
+                    </div>`;
+            }
+        }
     </script>
 </body>
 </html>
