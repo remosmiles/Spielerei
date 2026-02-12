@@ -14,14 +14,14 @@
     <div id="step1" class="step-container text-center p-10 bg-slate-900/90 border border-slate-700 rounded-3xl shadow-2xl max-w-md w-full relative z-10">
         <h1 class="text-3xl font-extrabold mb-6">Was suchst DU hier?</h1>
         <input type="text" id="entry-input" 
-               class="bg-slate-800 border border-slate-600 p-4 rounded-xl w-full text-center focus:outline-none focus:ring-2 focus:ring-green-500 mb-6" 
+               class="bg-slate-800 border border-slate-600 p-4 rounded-xl w-full text-center mb-6 focus:ring-2 focus:ring-green-500 outline-none" 
                placeholder="Deine Antwort...">
         <button onclick="triggerShake()" 
-                class="w-full bg-green-600 hover:bg-green-500 py-4 rounded-xl font-bold uppercase tracking-widest transition-all active:scale-95">
+                class="w-full bg-green-600 hover:bg-green-500 py-4 rounded-xl font-bold uppercase tracking-widest transition-all">
             Absenden
         </button>
         
-        <div class="mt-8 text-[10px] text-slate-500 flex justify-around uppercase tracking-widest">
+        <div class="mt-8 pt-6 border-t border-slate-800 text-[10px] text-slate-500 flex justify-around uppercase tracking-widest font-bold">
             <span>Hoffnung</span> • <span>Mut</span> • <span>Freude</span> • <span>Erregung</span>
         </div>
     </div>
@@ -30,27 +30,26 @@
         <h2 class="text-2xl font-bold mb-4">IDENTITÄTS-CHECK</h2>
         <p class="mb-6 text-slate-400">Wer ist der beste Polizist?</p>
         <input type="text" id="quiz-input" 
-               class="bg-slate-800 border border-slate-600 p-4 rounded-xl w-full mb-6 text-center focus:outline-none focus:ring-2 focus:ring-blue-500">
+               class="bg-slate-800 border border-slate-600 p-4 rounded-xl w-full mb-6 text-center outline-none focus:ring-2 focus:ring-blue-500">
         <button onclick="checkQuiz()" 
-                class="w-full bg-white text-black py-4 rounded-xl font-bold uppercase tracking-widest hover:bg-slate-200 transition-all">
-            PRÜFEN
-        </button>
-        <p class="mt-6 text-blue-400 text-[10px] uppercase tracking-tighter italic opacity-70">(Tipp: Du bist es nicht)</p>
+                class="w-full bg-white text-black py-4 rounded-xl font-bold">PRÜFEN</button>
+        
+        <p class="mt-6 text-blue-400 text-[11px] uppercase tracking-widest font-bold animate-pulse">
+            (Tipp: Du bist es nicht)
+        </p>
     </div>
 
     <div id="step3" class="hidden-step text-center p-10 bg-slate-950 border-2 border-yellow-500 rounded-3xl shadow-2xl max-w-md w-full relative z-10">
         <h2 class="text-2xl font-black mb-2 text-yellow-500 uppercase italic">Emergency Mode</h2>
-        <p class="mb-6 text-slate-300 text-sm">Löse das Problem, um den Shutdown abzubrechen:</p>
         <div id="math-problem" class="text-5xl font-mono font-bold mb-8 text-white bg-slate-900 py-6 rounded-2xl"></div>
-        <input type="number" id="math-input" 
-               class="bg-black border-2 border-yellow-900 p-4 rounded-xl w-full mb-8 text-center text-3xl font-mono text-yellow-500 focus:outline-none">
-        <div class="relative h-3 w-full bg-slate-800 rounded-full overflow-hidden">
-            <div id="timer-bar" class="absolute top-0 left-0 h-full bg-yellow-500 w-full transition-all"></div>
+        <input type="number" id="math-input" class="bg-black border-2 border-yellow-900 p-4 rounded-xl w-full mb-8 text-center text-3xl text-yellow-500 outline-none">
+        <div class="relative h-4 w-full bg-slate-800 rounded-full overflow-hidden">
+            <div id="timer-bar" class="absolute top-0 left-0 h-full bg-yellow-500 w-full"></div>
         </div>
     </div>
 
     <div id="error-banner" class="hidden-step fixed top-0 left-0 w-full p-6 text-white font-black text-center z-50 uppercase tracking-widest">
-        ⚠️ Kritischer Fehler: Falsche Antwort! Shutdown eingeleitet... ⚠️
+        ⚠️ Kritischer Fehler: Falsche Antwort! ⚠️
     </div>
 
     <script src="script.js"></script>
