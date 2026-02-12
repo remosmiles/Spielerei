@@ -1,7 +1,33 @@
+// --- MATRIX EFFEKT ---
+const canvas = document.getElementById('matrix-canvas');
+const ctx = canvas.getContext('2d');
+
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789$+-*/=%\"'#&_(),.;:?!\\|{}<>[]^~";
+const fontSize = 16;
+const columns = canvas.width / fontSize;
+const drops = Array(Math.floor(columns)).fill(1);
+
+function drawMatrix() {
+    ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = '#0F0';
+    ctx.font = fontSize + 'px monospace';
+
+    for (let i = 0; i < drops.length; i++) {
+        const text = characters.charAt(Math.floor(Math.random() * characters.length));
+        ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+        if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) drops[i] = 0;
+        drops[i]++;
+    }
+}
+setInterval(drawMatrix, 35);
+
+// --- DEINE LOGIK ---
 let shakeTriggered = false;
 let result = 0;
-
-// Sound-Effekt (Ein kurzer Piepton / Alarm)
 const errorSound = new Audio('https://actions.google.com/sounds/v1/emergency/emergency_siren_short.ogg');
 
 function triggerShake() {
@@ -24,7 +50,7 @@ function checkQuiz() {
     if (answer.toLowerCase() === 'remo') {
         proceedToMath();
     } else {
-        showChaos(); // Chaos-Funktion bei falscher Antwort
+        showChaos();
     }
 }
 
@@ -34,17 +60,14 @@ function showChaos() {
     banner.classList.remove('hidden-step');
     banner.classList.add('error-overlay');
 
-    // Erstelle 15 kleine Error-Fenster an zufälligen Positionen
     for (let i = 0; i < 15; i++) {
         createPopup();
     }
 
-    // Nach 4 Sekunden alles aufräumen und zur Mathe-Aufgabe
     setTimeout(() => {
         banner.classList.add('hidden-step');
         banner.classList.remove('error-overlay');
-        const popups = document.querySelectorAll('.fake-popup');
-        popups.forEach(p => p.remove());
+        document.querySelectorAll('.fake-popup').forEach(p => p.remove());
         proceedToMath();
     }, 4000);
 }
@@ -52,12 +75,9 @@ function showChaos() {
 function createPopup() {
     const popup = document.createElement('div');
     popup.className = 'fake-popup';
-    popup.innerHTML = `<div class="popup-header">System Error</div><p style="font-size: 10px">CRITICAL_FAILURE_0x0${Math.floor(Math.random()*999)}</p>`;
-    
-    // Zufällige Position auf dem Bildschirm
+    popup.innerHTML = `<div class="popup-header">SYSTEM ERROR</div><p style="font-size: 10px">CRITICAL_EXCEPTION</p>`;
     popup.style.top = Math.random() * 80 + "%";
     popup.style.left = Math.random() * 80 + "%";
-    
     document.body.appendChild(popup);
 }
 
@@ -70,17 +90,14 @@ function proceedToMath() {
     result = n1 + n2;
     document.getElementById('math-problem').innerText = `${n1} + ${n2}`;
     
-    let timeLeft = 7; // AUF 7 SEKUNDEN GEÄNDERT
+    let timeLeft = 7;
     const bar = document.getElementById('timer-bar');
-    const timeText = document.getElementById('time-text');
     
     const timer = setInterval(() => {
         timeLeft -= 0.05;
         bar.style.width = (timeLeft / 7 * 100) + "%";
-        timeText.innerText = Math.ceil(timeLeft);
         
-        const userVal = parseInt(document.getElementById('math-input').value);
-        if (userVal === result) {
+        if (parseInt(document.getElementById('math-input').value) === result) {
             clearInterval(timer);
             win();
         }
@@ -96,6 +113,6 @@ function proceedToMath() {
 
 function win() {
     const s3 = document.getElementById('step3');
-    s3.innerHTML = "<div class='text-8xl mb-4'>😉</div><h2 class='text-2xl font-bold'>System stabilisiert!</h2>";
-    setTimeout(() => { alert("Glück gehabt."); location.reload(); }, 2000);
+    s3.innerHTML = "<div class='text-8xl mb-4'>😉</div><h2 class='text-2xl font-bold'>ZUTRITT GEWÄHRT</h2>";
+    setTimeout(() => { location.reload(); }, 2500);
 }
