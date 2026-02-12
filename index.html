@@ -3,61 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sicherheits-Check</title>
+    <title>System-Sicherheitstest</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="style.css">
 </head>
 <body id="main-body" class="flex items-center justify-center min-h-screen bg-slate-950 text-white">
+    
+    <canvas id="matrix-canvas"></canvas>
 
-    <div id="step1" class="step-container text-center p-10 bg-slate-900 border border-slate-700 rounded-3xl shadow-2xl max-w-md w-full">
-        <h1 class="text-3xl font-extrabold mb-2">System-Zugriff</h1>
-        <p class="text-slate-400 mb-8 text-sm italic">Identifizierung erforderlich</p>
+    <div id="step1" class="step-container text-center p-10 bg-slate-900/80 border border-slate-700 rounded-3xl shadow-2xl max-w-md w-full relative">
+        <h1 class="text-3xl font-extrabold mb-6">Was suchst DU hier?</h1>
+        <input type="text" id="entry-input" class="bg-slate-800 border border-slate-600 p-4 rounded-xl w-full text-center mb-6" placeholder="Deine Antwort...">
+        <button onclick="triggerShake()" class="w-full bg-green-600 hover:bg-green-500 py-4 rounded-xl font-bold uppercase">Absenden</button>
         
-        <label class="block text-left text-xs font-bold uppercase tracking-widest text-blue-400 mb-2">Deine Intention:</label>
-        <input type="text" id="entry-input" 
-               class="bg-slate-800 border border-slate-600 p-4 rounded-xl w-full text-center focus:outline-none focus:ring-2 focus:ring-blue-500 mb-6 transition-all" 
-               placeholder="Was suchst du hier?">
-        
-        <button onclick="triggerShake()" 
-                class="w-full bg-blue-600 hover:bg-blue-500 py-4 rounded-xl font-bold uppercase tracking-widest shadow-lg shadow-blue-900/20 active:scale-95 transition-all">
-            Antwort bestätigen
-        </button>
+        <div class="mt-8 text-xs text-slate-500 flex justify-around">
+            <span>Hoffnung</span> • <span>Mut</span> • <span>Freude</span> • <span>Erregung</span>
+        </div>
     </div>
 
     <div id="step2" class="hidden-step text-center p-10 bg-slate-900 border border-slate-700 rounded-3xl shadow-2xl max-w-md w-full">
-        <div class="w-16 h-16 bg-blue-500/10 rounded-full flex items-center justify-center mx-auto mb-6">
-            <span class="text-3xl text-blue-500">🛡️</span>
-        </div>
-        <h2 class="text-2xl font-bold mb-2">Identitäts-Check</h2>
+        <h2 class="text-2xl font-bold mb-4">IDENTITÄTS-CHECK</h2>
         <p class="mb-6 text-slate-400">Wer ist der beste Polizist?</p>
+        <input type="text" id="quiz-input" class="bg-slate-800 border border-slate-600 p-4 rounded-xl w-full mb-6 text-center">
+        <button onclick="checkQuiz()" class="w-full bg-white text-black py-4 rounded-xl font-bold">PRÜFEN</button>
         
-        <input type="text" id="quiz-input" 
-               class="bg-slate-800 border border-slate-600 p-4 rounded-xl w-full mb-6 text-center focus:outline-none focus:ring-2 focus:ring-blue-500">
-        
-        <button onclick="checkQuiz()" 
-                class="w-full bg-slate-100 hover:bg-white text-slate-950 py-4 rounded-xl font-bold uppercase tracking-widest transition-all">
-            Prüfen
-        </button>
-    </div>
-
-    <div id="step3" class="hidden-step text-center p-10 bg-slate-950 border-2 border-yellow-500 rounded-3xl shadow-2xl max-w-md w-full">
-        <h2 class="text-2xl font-black mb-2 text-yellow-500 uppercase tracking-tighter italic">Emergency Mode</h2>
-        <p class="mb-6 text-slate-300 text-sm">Löse die Gleichung, um den System-Shutdown zu verhindern:</p>
-        
-        <div id="math-problem" class="text-5xl font-mono font-bold mb-8 tracking-widest text-white bg-slate-900 py-6 rounded-2xl">
-            </div>
-        
-        <input type="number" id="math-input" 
-               class="bg-black border-2 border-yellow-900 p-4 rounded-xl w-full mb-8 text-center text-3xl font-mono focus:outline-none focus:border-yellow-500 text-yellow-500">
-        
-        <div class="relative h-3 w-full bg-slate-800 rounded-full overflow-hidden">
-            <div id="timer-bar" class="absolute top-0 left-0 h-full bg-yellow-500 w-full"></div>
-        </div>
-        <p class="mt-4 text-[10px] uppercase text-yellow-600 font-bold tracking-widest">Verbleibende Zeit: <span id="time-text">15</span>s</p>
-    </div>
-
-    <div id="error-banner" class="hidden-step fixed top-0 left-0 w-full p-6 bg-red-600 text-white font-black text-center z-50 uppercase tracking-widest shadow-2xl">
-        ⚠️ Kritischer Fehler: Falsche Antwort! Shutdown wird eingeleitet... ⚠️
+        <p class="mt-6 text-blue-400 text-[10px] uppercase tracking-tighter italic">(Kleiner Tipp: Du bist es nicht)</p>
     </div>
 
     <script src="script.js"></script>
