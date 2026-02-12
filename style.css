@@ -4,8 +4,8 @@
     left: 0;
     width: 100vw;
     height: 100vh;
-    z-index: 0;
-    opacity: 0.3; /* Stärke des Matrix-Looks */
+    z-index: -1; /* Hinter allem anderen */
+    display: block;
 }
 
 .hidden-step { display: none !important; }
