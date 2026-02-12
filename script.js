@@ -1,21 +1,17 @@
 let shakeTriggered = false;
 let result = 0;
 
-// Schritt 1: Das Erdbeben nach Button-Klick
+// Sound-Effekt (Ein kurzer Piepton / Alarm)
+const errorSound = new Audio('https://actions.google.com/sounds/v1/emergency/emergency_siren_short.ogg');
+
 function triggerShake() {
     const input = document.getElementById('entry-input').value;
-    if (input.trim() === "") {
-        alert("Du musst schon etwas antworten...");
-        return;
-    }
-
+    if (input.trim() === "") return;
     if (shakeTriggered) return;
     shakeTriggered = true;
     
-    // Beben starten
     document.getElementById('main-body').classList.add('shake-active');
     
-    // Nach 5 Sekunden Beben stoppen und zum Quiz wechseln
     setTimeout(() => {
         document.getElementById('main-body').classList.remove('shake-active');
         document.getElementById('step1').classList.add('hidden-step');
@@ -23,26 +19,48 @@ function triggerShake() {
     }, 5000);
 }
 
-// Schritt 2: Quiz prüfen (Der Remo-Check)
 function checkQuiz() {
     const answer = document.getElementById('quiz-input').value.trim();
-    
     if (answer.toLowerCase() === 'remo') {
         proceedToMath();
     } else {
-        // Roter Balken einblenden
-        const banner = document.getElementById('error-banner');
-        banner.classList.remove('hidden-step');
-        
-        // Nach 3 Sekunden Balken weg und trotzdem zur Mathe-Aufgabe (als Strafe)
-        setTimeout(() => {
-            banner.classList.add('hidden-step');
-            proceedToMath();
-        }, 3000);
+        showChaos(); // Chaos-Funktion bei falscher Antwort
     }
 }
 
-// Schritt 3: Die Mathe-Challenge
+function showChaos() {
+    errorSound.play();
+    const banner = document.getElementById('error-banner');
+    banner.classList.remove('hidden-step');
+    banner.classList.add('error-overlay');
+
+    // Erstelle 15 kleine Error-Fenster an zufälligen Positionen
+    for (let i = 0; i < 15; i++) {
+        createPopup();
+    }
+
+    // Nach 4 Sekunden alles aufräumen und zur Mathe-Aufgabe
+    setTimeout(() => {
+        banner.classList.add('hidden-step');
+        banner.classList.remove('error-overlay');
+        const popups = document.querySelectorAll('.fake-popup');
+        popups.forEach(p => p.remove());
+        proceedToMath();
+    }, 4000);
+}
+
+function createPopup() {
+    const popup = document.createElement('div');
+    popup.className = 'fake-popup';
+    popup.innerHTML = `<div class="popup-header">System Error</div><p style="font-size: 10px">CRITICAL_FAILURE_0x0${Math.floor(Math.random()*999)}</p>`;
+    
+    // Zufällige Position auf dem Bildschirm
+    popup.style.top = Math.random() * 80 + "%";
+    popup.style.left = Math.random() * 80 + "%";
+    
+    document.body.appendChild(popup);
+}
+
 function proceedToMath() {
     document.getElementById('step2').classList.add('hidden-step');
     document.getElementById('step3').classList.remove('hidden-step');
@@ -52,14 +70,15 @@ function proceedToMath() {
     result = n1 + n2;
     document.getElementById('math-problem').innerText = `${n1} + ${n2}`;
     
-    let timeLeft = 15;
+    let timeLeft = 7; // AUF 7 SEKUNDEN GEÄNDERT
     const bar = document.getElementById('timer-bar');
+    const timeText = document.getElementById('time-text');
     
     const timer = setInterval(() => {
-        timeLeft -= 0.1;
-        bar.style.width = (timeLeft / 15 * 100) + "%";
+        timeLeft -= 0.05;
+        bar.style.width = (timeLeft / 7 * 100) + "%";
+        timeText.innerText = Math.ceil(timeLeft);
         
-        // Sofortprüfung beim Tippen
         const userVal = parseInt(document.getElementById('math-input').value);
         if (userVal === result) {
             clearInterval(timer);
@@ -69,18 +88,14 @@ function proceedToMath() {
         if (timeLeft <= 0) {
             clearInterval(timer);
             if (parseInt(document.getElementById('math-input').value) !== result) {
-                // Gnadenlose Weiterleitung
                 window.location.href = "https://www.bullenpower-uri.ch";
             }
         }
-    }, 100);
+    }, 50);
 }
 
 function win() {
     const s3 = document.getElementById('step3');
     s3.innerHTML = "<div class='text-8xl mb-4'>😉</div><h2 class='text-2xl font-bold'>System stabilisiert!</h2>";
-    setTimeout(() => {
-        alert("Glück gehabt. Der PC bleibt an.");
-        location.reload(); 
-    }, 2500);
+    setTimeout(() => { alert("Glück gehabt."); location.reload(); }, 2000);
 }
